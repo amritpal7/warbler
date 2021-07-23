@@ -4,16 +4,15 @@ const jwt = require("jsonwebtoken");
 exports.signIn = async (req, res, next) => {
   try {
     let user = await User.findOne({ email: req.body.email });
-    let { id, eamil, username, profileImageUrl } = user;
+    let { id, username, profileImageUrl } = user;
     let isMatch = await user.comparePassword(req.body.password);
     if (isMatch) {
       let token = jwt.sign(
-        { id, email, username, profileImageUrl },
+        { id, username, profileImageUrl },
         process.env.JWT_SECRET_KEY
       );
       return res.status(200).json({
         id,
-        email,
         usernmane,
         profileImageUrl,
         token,
